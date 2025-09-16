@@ -5,6 +5,7 @@ import { ThemeProvider, useTheme } from './theme/theme-context';
 import { Home } from './routes/Home';
 import { TeacherDashboard } from './routes/TeacherDashboard';
 import { StudentDashboard } from './routes/StudentDashboard';
+import { Button } from './components/Button';
 
 // App (test-friendly) expects to be rendered inside a Router + RoleProvider.
 export const App: React.FC = () => <Shell />;
@@ -36,15 +37,42 @@ const Shell: React.FC = () => {
       <a href="#main" className="skip-link">Hoppa till innehåll</a>
       <header>
         <h1>Skolapp</h1>
-        <nav aria-label="Huvudnavigation" style={{ display: 'flex', gap: '0.5rem' }}>
+        <nav aria-label="Huvudnavigation">
           <Link to="/">Hem</Link>
-          <Link to="/teacher">Teacher</Link>
-          <Link to="/student">Student</Link>
-          <span style={{ marginLeft: 'auto' }}>Roll: {role}</span>
-          <button onClick={() => setRole('guest')}>Guest</button>
-          <button onClick={() => setRole('teacher')}>Teacher</button>
-          <button onClick={() => setRole('student')}>Student</button>
-          <button onClick={toggle} aria-label="Byt tema">Tema: {theme === 'light' ? '🌞' : '🌙'}</button>
+          <Link to="/teacher">Lärare</Link>
+          <Link to="/student">Elever</Link>
+          <span style={{ marginLeft: 'auto', fontSize: '0.875rem', color: 'var(--gray-500)' }}>
+            Roll: {role}
+          </span>
+          <Button 
+            variant="ghost" 
+            onClick={() => setRole('guest')}
+            className={role === 'guest' ? 'active' : ''}
+          >
+            Gäst
+          </Button>
+          <Button 
+            variant="ghost" 
+            onClick={() => setRole('teacher')}
+            className={role === 'teacher' ? 'active' : ''}
+          >
+            Lärare
+          </Button>
+          <Button 
+            variant="ghost" 
+            onClick={() => setRole('student')}
+            className={role === 'student' ? 'active' : ''}
+          >
+            Elev
+          </Button>
+          <Button 
+            variant="icon"
+            onClick={toggle} 
+            aria-label="Byt tema"
+            srLabel="Byt tema"
+          >
+            {theme === 'light' ? '🌞' : '🌙'}
+          </Button>
         </nav>
       </header>
       <OfflineBanner />
