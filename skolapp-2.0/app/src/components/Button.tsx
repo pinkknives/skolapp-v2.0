@@ -3,6 +3,7 @@ import clsx from 'clsx';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'danger' | 'ghost' | 'link' | 'icon';
+  size?: 'small' | 'medium' | 'large';
   loading?: boolean;
   fullWidth?: boolean;
   icon?: React.ReactNode;
@@ -13,6 +14,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 
 export const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
+  size = 'medium',
   loading = false,
   disabled,
   fullWidth,
@@ -34,7 +36,14 @@ export const Button: React.FC<ButtonProps> = ({
   const ariaDisabled = loading || disabled ? true : undefined;
   return (
     <button
-      className={clsx('btn', `btn--${variant}`, fullWidth && 'btn--full', loading && 'is-loading', className)}
+      className={clsx(
+        'btn', 
+        `btn--${variant}`, 
+        `btn--${size}`,
+        fullWidth && 'btn--full', 
+        loading && 'is-loading', 
+        className
+      )}
       disabled={disabled || loading}
       aria-disabled={ariaDisabled}
       aria-busy={loading || undefined}

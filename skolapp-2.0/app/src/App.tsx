@@ -5,6 +5,7 @@ import { ThemeProvider, useTheme } from './theme/theme-context';
 import { Home } from './routes/Home';
 import { TeacherDashboard } from './routes/TeacherDashboard';
 import { StudentDashboard } from './routes/StudentDashboard';
+import { CommunityHub } from './routes/CommunityHub';
 
 // App (test-friendly) expects to be rendered inside a Router + RoleProvider.
 export const App: React.FC = () => <Shell />;
@@ -40,6 +41,7 @@ const Shell: React.FC = () => {
           <Link to="/">Hem</Link>
           <Link to="/teacher">Teacher</Link>
           <Link to="/student">Student</Link>
+          <Link to="/community">Community</Link>
           <span style={{ marginLeft: 'auto' }}>Roll: {role}</span>
           <button onClick={() => setRole('guest')}>Guest</button>
           <button onClick={() => setRole('teacher')}>Teacher</button>
@@ -52,7 +54,8 @@ const Shell: React.FC = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/teacher" element={<ProtectedRoute allow={['teacher']}><TeacherDashboard /></ProtectedRoute>} />
-            <Route path="/student" element={<ProtectedRoute allow={['student']}><StudentDashboard /></ProtectedRoute>} />
+          <Route path="/student" element={<ProtectedRoute allow={['student']}><StudentDashboard /></ProtectedRoute>} />
+          <Route path="/community" element={<ProtectedRoute allow={['teacher']}><CommunityHub /></ProtectedRoute>} />
         </Routes>
       </main>
     </div>

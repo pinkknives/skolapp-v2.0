@@ -5,6 +5,8 @@
 	--primary: #1d4ed8;
 	--accent: #f59e0b;
 	--border: #e5e7eb;
+	--background-secondary: #f8fafc;
+	--muted: #64748b;
 }
 html[data-theme='dark'] {
 	--bg: #0f172a;
@@ -12,6 +14,8 @@ html[data-theme='dark'] {
 	--primary: #3b82f6;
 	--accent: #fbbf24;
 	--border: #334155;
+	--background-secondary: #1e293b;
+	--muted: #94a3b8;
 }
 
 body { font-family: system-ui, sans-serif; margin: 0; background: var(--bg); color: var(--fg); }
@@ -64,6 +68,23 @@ html[data-theme='dark'] .btn--ghost:not(:disabled):hover { background: rgba(255,
 .btn--icon { background: transparent; width:40px; height:40px; justify-content:center; padding:0; }
 .btn--icon:not(:disabled):hover { background: rgba(0,0,0,0.06); }
 html[data-theme='dark'] .btn--icon:not(:disabled):hover { background: rgba(255,255,255,0.12); }
+
+/* Sizes */
+.btn--small { 
+	--_pad-y: 0.35rem;
+	--_pad-x: 0.75rem;
+	font-size: 0.875rem;
+}
+.btn--medium { 
+	--_pad-y: 0.55rem;
+	--_pad-x: 1rem;
+	font-size: 1rem;
+}
+.btn--large { 
+	--_pad-y: 0.75rem;
+	--_pad-x: 1.25rem;
+	font-size: 1.125rem;
+}
 
 /* Loading */
 .is-loading { position: relative; }

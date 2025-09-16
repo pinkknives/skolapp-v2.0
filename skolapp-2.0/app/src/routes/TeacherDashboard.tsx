@@ -1,17 +1,22 @@
 import React, { useMemo, useState } from 'react';
 import { useQuizzes } from '../hooks/useQuizzes';
 import { useLocalQuizzes, validateQuiz } from '../hooks/useLocalQuizzes';
+import { useSharedQuizzes } from '../hooks/useSharedQuizzes';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 
 export const TeacherDashboard: React.FC = () => {
   const { quizzes, loading, error, lastSynced, offline } = useQuizzes();
   const { localQuizzes, addQuiz, merged } = useLocalQuizzes();
+  const { shareQuiz } = useSharedQuizzes();
   const [title, setTitle] = useState('');
   const [question, setQuestion] = useState('');
   const [errors, setErrors] = useState<string[]>([]);
   const [touched, setTouched] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [shareDialogQuiz, setShareDialogQuiz] = useState<{id: string; title: string} | null>(null);
+  const [shareAuthor, setShareAuthor] = useState('');
+  const [shareTags, setShareTags] = useState('');
   const online = typeof navigator !== 'undefined' ? navigator.onLine : true;
   const currentErrors = validateQuiz(title, question);
 
@@ -29,6 +34,27 @@ export const TeacherDashboard: React.FC = () => {
     setErrors(quotaError ? [quotaError] : []);
     setTouched(false);
     setSaving(false);
+  }
+
+  function handleShareQuiz(quiz: {id: string; title: string}) {
+    setShareDialogQuiz(quiz);
+    setShareAuthor('');
+    setShareTags('');
+  }
+
+  function handleShareSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!shareDialogQuiz || !shareAuthor.trim()) return;
+
+    const localQuiz = localQuizzes.find(q => q.id === shareDialogQuiz.id);
+    if (!localQuiz) return;
+
+    const tags = shareTags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
+    shareQuiz(localQuiz, shareAuthor.trim(), tags);
+    
+    setShareDialogQuiz(null);
+    setShareAuthor('');
+    setShareTags('');
   }
 
   return (
@@ -91,11 +117,102 @@ export const TeacherDashboard: React.FC = () => {
                   Skapad lokalt {new Date((q as any).createdAt || q.updatedAt || Date.now()).toLocaleTimeString()}
                 </span>
               )}
+              {q._local && (
+                <div style={{marginTop: '0.5rem'}}>
+                  <Button
+                    variant="secondary"
+                    size="small"
+                    onClick={() => handleShareQuiz({id: q.id, title: q.title})}
+                  >
+                    Dela till Community
+                  </Button>
+                </div>
+              )}
             </Card>
           ))}
         </div>
         <small>Senast synkad: {lastSynced ? lastSynced.toLocaleTimeString() : '–'}</small>
       </div>
+
+      {/* Share Quiz Dialog */}
+      {shareDialogQuiz && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000,
+          }}
+          onClick={() => setShareDialogQuiz(null)}
+        >
+          <div
+            style={{
+              background: 'white',
+              padding: '1.5rem',
+              borderRadius: '8px',
+              maxWidth: '500px',
+              width: '90%',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3>Dela quiz till Community</h3>
+            <p>Dela "{shareDialogQuiz.title}" med andra lärare i community hub.</p>
+            
+            <form onSubmit={handleShareSubmit}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <label>
+                  Författarnamn *
+                  <input
+                    type="text"
+                    value={shareAuthor}
+                    onChange={(e) => setShareAuthor(e.target.value)}
+                    placeholder="Ditt namn som kommer att visas"
+                    required
+                    maxLength={50}
+                  />
+                </label>
+                
+                <label>
+                  Taggar (valfritt)
+                  <input
+                    type="text"
+                    value={shareTags}
+                    onChange={(e) => setShareTags(e.target.value)}
+                    placeholder="Ex: matematik, åk7, geometri (separera med komma)"
+                    maxLength={200}
+                  />
+                  <small style={{ color: 'var(--muted)' }}>
+                    Taggar hjälper andra att hitta ditt quiz
+                  </small>
+                </label>
+                
+                <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    onClick={() => setShareDialogQuiz(null)}
+                  >
+                    Avbryt
+                  </Button>
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    disabled={!shareAuthor.trim()}
+                  >
+                    Dela Quiz
+                  </Button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
