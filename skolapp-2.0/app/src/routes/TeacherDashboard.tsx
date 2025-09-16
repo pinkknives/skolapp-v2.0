@@ -1,17 +1,21 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { useQuizzes } from '../hooks/useQuizzes';
 import { useLocalQuizzes, validateQuiz } from '../hooks/useLocalQuizzes';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
+import { AIQuizGenerator } from '../components/AIQuizGenerator';
+import { AIQuizDraftViewer } from '../components/AIQuizDraftViewer';
+import { AIQuizDraft } from '../hooks/useAIQuizGeneration';
 
 export const TeacherDashboard: React.FC = () => {
   const { quizzes, loading, error, lastSynced, offline } = useQuizzes();
-  const { localQuizzes, addQuiz, merged } = useLocalQuizzes();
+  const { addQuiz, addAIDraft, acceptAIDraft, discardAIDraft, merged } = useLocalQuizzes();
   const [title, setTitle] = useState('');
   const [question, setQuestion] = useState('');
   const [errors, setErrors] = useState<string[]>([]);
   const [touched, setTouched] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [aiDrafts, setAIDrafts] = useState<AIQuizDraft[]>([]);
   const online = typeof navigator !== 'undefined' ? navigator.onLine : true;
   const currentErrors = validateQuiz(title, question);
 
@@ -31,12 +35,55 @@ export const TeacherDashboard: React.FC = () => {
     setSaving(false);
   }
 
+  function handleAIDraftGenerated(draft: AIQuizDraft) {
+    setAIDrafts(prev => [draft, ...prev]);
+    const { error: quotaError } = addAIDraft(draft);
+    if (quotaError) {
+      setErrors([quotaError]);
+    }
+  }
+
+  function handleAcceptAIDraft(draft: AIQuizDraft) {
+    const { error: quotaError } = acceptAIDraft(draft);
+    if (!quotaError) {
+      // Remove from drafts list
+      setAIDrafts(prev => prev.filter(d => d.id !== draft.id));
+    } else {
+      setErrors([quotaError]);
+    }
+  }
+
+  function handleDiscardAIDraft(draftId: string) {
+    discardAIDraft(draftId);
+    setAIDrafts(prev => prev.filter(d => d.id !== draftId));
+  }
+
   return (
     <section>
       <h2>Teacher Dashboard</h2>
       <p>Skapa och hantera quiz.</p>
+
+      {/* AI Quiz Generator */}
+      <AIQuizGenerator onDraftGenerated={handleAIDraftGenerated} />
+
+      {/* AI Drafts */}
+      {aiDrafts.length > 0 && (
+        <div style={{marginBottom: '1rem'}}>
+          <h3>AI-genererade utkast ({aiDrafts.length})</h3>
+          {aiDrafts.map(draft => (
+            <AIQuizDraftViewer
+              key={draft.id}
+              draft={draft}
+              onAccept={handleAcceptAIDraft}
+              onDiscard={handleDiscardAIDraft}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* Manual Quiz Creation */}
       <form onSubmit={handleSubmit} aria-labelledby="create-quiz-h" style={{marginBottom: '1rem', border:'1px solid var(--border)', padding:'1rem', borderRadius:4}}>
-        <h3 id="create-quiz-h">Skapa nytt quiz</h3>
+        <h3 id="create-quiz-h">Skapa nytt quiz manuellt</h3>
         {!online && <div style={{color:'orange'}}>Offline-läge: sparas lokalt (R4)</div>}
         <div style={{display:'flex', flexDirection:'column', gap:'0.5rem'}}>
           <label>
@@ -73,6 +120,8 @@ export const TeacherDashboard: React.FC = () => {
           </Button>
         </div>
       </form>
+
+      {/* Quiz List */}
       <div>
         <h3>Quiz-lista {offline && <span style={{color: 'orange'}}>(offline)</span>}</h3>
         {loading && <p>Laddar...</p>}
@@ -83,8 +132,12 @@ export const TeacherDashboard: React.FC = () => {
               key={q.id}
               density="compact"
               title={q.title}
-              badge={q._local ? 'Lokal' : undefined}
+              badge={q._aiDraft ? 'AI-UTKAST' : (q._local ? 'Lokal' : undefined)}
               meta={q._local ? 'Ej synkad' : undefined}
+              style={q._aiDraft ? {
+                border: '2px solid var(--ai-border, #6366f1)',
+                backgroundColor: 'var(--ai-bg, #f8faff)'
+              } : undefined}
             >
               {q._local && (
                 <span style={{fontSize:'.7rem', opacity:.8}}>
