@@ -2,6 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { RootApp } from './App';
 import './styles.css';
+import './marketing.css';
 import './register-sw';
 
 const container = document.getElementById('root');
