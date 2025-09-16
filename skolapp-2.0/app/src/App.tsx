@@ -35,20 +35,24 @@ const Shell: React.FC = () => {
     <div className="app-shell">
       <a href="#main" className="skip-link">Hoppa till innehåll</a>
       <header>
-        <h1>Skolapp</h1>
-        <nav aria-label="Huvudnavigation" style={{ display: 'flex', gap: '0.5rem' }}>
-          <Link to="/">Hem</Link>
-          <Link to="/teacher">Teacher</Link>
-          <Link to="/student">Student</Link>
-          <span style={{ marginLeft: 'auto' }}>Roll: {role}</span>
-          <button onClick={() => setRole('guest')}>Guest</button>
-          <button onClick={() => setRole('teacher')}>Teacher</button>
-          <button onClick={() => setRole('student')}>Student</button>
-          <button onClick={toggle} aria-label="Byt tema">Tema: {theme === 'light' ? '🌞' : '🌙'}</button>
-        </nav>
+        <div className="header-content">
+          <Link to="/" className="logo">Skolapp</Link>
+          <nav className="main-nav" aria-label="Huvudnavigation">
+            <Link to="/">Hem</Link>
+            <Link to="/teacher">Lärare</Link>
+            <Link to="/student">Elev</Link>
+          </nav>
+          <div className="nav-controls">
+            <span style={{ fontSize: '0.875rem', opacity: 0.7 }}>Roll: {role}</span>
+            <button className="btn btn--ghost" onClick={() => setRole('guest')}>Guest</button>
+            <button className="btn btn--ghost" onClick={() => setRole('teacher')}>Lärare</button>
+            <button className="btn btn--ghost" onClick={() => setRole('student')}>Elev</button>
+            <button className="btn btn--icon" onClick={toggle} aria-label="Byt tema">{theme === 'light' ? '🌞' : '🌙'}</button>
+          </div>
+        </div>
       </header>
       <OfflineBanner />
-      <main id="main" tabIndex={-1}>
+      <main id="main" tabIndex={-1} className="main-content">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/teacher" element={<ProtectedRoute allow={['teacher']}><TeacherDashboard /></ProtectedRoute>} />
