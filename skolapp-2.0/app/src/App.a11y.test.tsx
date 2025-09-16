@@ -3,6 +3,7 @@ import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { RoleProvider } from './auth/role-context';
+import { AuthProvider } from './auth/auth-context';
 import { ThemeProvider } from './theme/theme-context';
 import { App } from './App';
 
@@ -12,11 +13,13 @@ describe('App a11y landmarks', () => {
   it('renders skip link and main landmark', () => {
     render(
       <ThemeProvider>
-        <RoleProvider>
-          <MemoryRouter>
-            <App />
-          </MemoryRouter>
-        </RoleProvider>
+        <AuthProvider>
+          <RoleProvider>
+            <MemoryRouter>
+              <App />
+            </MemoryRouter>
+          </RoleProvider>
+        </AuthProvider>
       </ThemeProvider>
     );
     const skip = screen.getByText(/Hoppa till innehåll/i);

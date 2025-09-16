@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { useAuth } from './auth-context';
 
 export type Role = 'guest' | 'teacher' | 'student';
 
@@ -28,8 +29,25 @@ export const RoleProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   return <RoleContext.Provider value={{ role, setRole }}>{children}</RoleContext.Provider>;
 };
 
+// Compatibility hook that integrates with auth context
 export function useRole(): RoleContextValue {
   const ctx = useContext(RoleContext);
   if (!ctx) throw new Error('useRole must be used within RoleProvider');
-  return ctx;
+  
+  // Try to get auth context if available
+  let authRole: Role | null = null;
+  try {
+    const auth = useAuth();
+    authRole = auth.user?.role || null;
+  } catch {
+    // Auth context not available, use role context only
+  }
+
+  // If user is authenticated, return their actual role
+  const effectiveRole = authRole || ctx.role;
+  
+  return {
+    role: effectiveRole,
+    setRole: ctx.setRole
+  };
 }

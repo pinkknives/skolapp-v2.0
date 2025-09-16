@@ -5,6 +5,8 @@
 	--primary: #1d4ed8;
 	--accent: #f59e0b;
 	--border: #e5e7eb;
+	--error: #dc2626;
+	--success: #059669;
 }
 html[data-theme='dark'] {
 	--bg: #0f172a;
@@ -12,6 +14,8 @@ html[data-theme='dark'] {
 	--primary: #3b82f6;
 	--accent: #fbbf24;
 	--border: #334155;
+	--error: #ef4444;
+	--success: #10b981;
 }
 
 body { font-family: system-ui, sans-serif; margin: 0; background: var(--bg); color: var(--fg); }
@@ -105,3 +109,149 @@ html[data-theme='dark'] .field__control { background: var(--field-bg, #1e293b); 
 .field--with-icon { position:relative; }
 .field--with-icon .field__icon { position:absolute; left:8px; top:50%; transform:translateY(-50%); pointer-events:none; font-size:.85rem; opacity:.8; }
 .field--with-icon .field__control { padding-left:2rem; }
+
+/* Authentication Styles */
+.auth-page {
+  max-width: 400px;
+  margin: 2rem auto;
+}
+
+.auth-options {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.auth-option {
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.auth-option h3 {
+  margin: 0 0 0.5rem 0;
+  color: var(--primary);
+}
+
+.auth-option p {
+  margin: 0 0 1rem 0;
+  font-size: 0.9rem;
+  color: var(--fg);
+  opacity: 0.8;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.auth-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 2rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+}
+
+.auth-form h2 {
+  margin: 0 0 1.5rem 0;
+  text-align: center;
+  color: var(--primary);
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 0.875rem;
+  background: var(--bg);
+  color: var(--fg);
+  box-sizing: border-box;
+}
+
+.form-group input:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-color: var(--primary);
+}
+
+.form-group small {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  color: var(--fg);
+  opacity: 0.7;
+}
+
+.error-message {
+  background: var(--error);
+  color: white;
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+
+.success-message {
+  background: var(--success);
+  color: white;
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+
+.link-button {
+  background: none;
+  border: none;
+  color: var(--primary);
+  text-decoration: underline;
+  cursor: pointer;
+  font: inherit;
+}
+
+.link-button:hover {
+  text-decoration: none;
+}
+
+.link-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  color: var(--primary);
+  cursor: pointer;
+  font: inherit;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.back-button:hover {
+  text-decoration: underline;
+}
+
+.privacy-note {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: var(--fg);
+  opacity: 0.7;
+  text-align: center;
+}
