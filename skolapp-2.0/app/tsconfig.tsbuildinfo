@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/register-sw.ts","./src/auth/role-context.tsx","./src/hooks/uselocalquizzes.ts","./src/hooks/usequizzes.ts","./src/routes/home.tsx","./src/routes/studentdashboard.tsx","./src/routes/teacherdashboard.tsx","./src/theme/theme-context.tsx"],"version":"5.9.2"}
