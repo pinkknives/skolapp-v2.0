@@ -34,18 +34,32 @@ const Shell: React.FC = () => {
   return (
     <div className="app-shell">
       <a href="#main" className="skip-link">Hoppa till innehåll</a>
-      <header>
-        <h1>Skolapp</h1>
-        <nav aria-label="Huvudnavigation" style={{ display: 'flex', gap: '0.5rem' }}>
-          <Link to="/">Hem</Link>
-          <Link to="/teacher">Teacher</Link>
-          <Link to="/student">Student</Link>
-          <span style={{ marginLeft: 'auto' }}>Roll: {role}</span>
-          <button onClick={() => setRole('guest')}>Guest</button>
-          <button onClick={() => setRole('teacher')}>Teacher</button>
-          <button onClick={() => setRole('student')}>Student</button>
-          <button onClick={toggle} aria-label="Byt tema">Tema: {theme === 'light' ? '🌞' : '🌙'}</button>
-        </nav>
+      <header className="navbar">
+        <div className="navbar__container">
+          <div className="navbar__brand">
+            <Link to="/" className="navbar__logo">
+              <h1>Skolapp</h1>
+            </Link>
+          </div>
+          <nav aria-label="Huvudnavigation" className="navbar__nav">
+            <Link to="/" className="navbar__link">Hem</Link>
+            <Link to="/teacher" className="navbar__link">Teacher</Link>
+            <Link to="/student" className="navbar__link">Student</Link>
+          </nav>
+          <div className="navbar__actions">
+            <div className="navbar__role">
+              <span className="navbar__role-label">Roll: {role}</span>
+              <div className="navbar__role-buttons">
+                <button onClick={() => setRole('guest')} className="btn btn--ghost btn--small">Guest</button>
+                <button onClick={() => setRole('teacher')} className="btn btn--ghost btn--small">Teacher</button>
+                <button onClick={() => setRole('student')} className="btn btn--ghost btn--small">Student</button>
+              </div>
+            </div>
+            <button onClick={toggle} aria-label="Byt tema" className="btn btn--icon">
+              {theme === 'light' ? '🌞' : '🌙'}
+            </button>
+          </div>
+        </div>
       </header>
       <OfflineBanner />
       <main id="main" tabIndex={-1}>
