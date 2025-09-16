@@ -1,0 +1,20 @@
+{
+  "ABC123": {
+    "id": "quiz-1",
+    "title": "Matematik Quiz",
+    "status": "active",
+    "questions": 10
+  },
+  "XYZ789": {
+    "id": "quiz-2", 
+    "title": "Historia Quiz",
+    "status": "active",
+    "questions": 15
+  },
+  "DEF456": {
+    "id": "quiz-3",
+    "title": "Stängt Quiz",
+    "status": "closed",
+    "questions": 8
+  }
+}
