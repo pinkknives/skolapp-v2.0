@@ -13,6 +13,7 @@ export interface CardProps {
   onClick?: (e: React.MouseEvent) => void;
   children?: React.ReactNode;
   className?: string;
+  role?: string;
 }
 
 export const Card: React.FC<CardProps> = ({
@@ -26,7 +27,8 @@ export const Card: React.FC<CardProps> = ({
   footer,
   onClick,
   children,
-  className
+  className,
+  role
 }) => {
   const Component: any = interactive ? (as === 'a' ? 'a' : as === 'button' ? 'button' : 'button') : as;
   const isButtonLike = interactive && Component === 'button';
@@ -38,6 +40,7 @@ export const Card: React.FC<CardProps> = ({
       {...(href && Component === 'a' ? { href } : {})}
       {...(interactive ? { tabIndex: 0 } : {})}
       {...(isButtonLike ? { type: 'button' } : {})}
+      {...(role ? { role } : {})}
     >
       {(title || meta || badge) && (
         <div className="card__header">
