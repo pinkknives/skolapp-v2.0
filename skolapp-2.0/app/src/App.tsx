@@ -2,9 +2,14 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { RoleProvider, useRole } from './auth/role-context';
 import { ThemeProvider, useTheme } from './theme/theme-context';
+import { LanguageProvider } from './i18n/lang-context';
+import { NavBar } from './components/layout/NavBar';
+import { Footer } from './components/layout/Footer';
+import { ConsentBanner } from './components/layout/ConsentBanner';
 import { Home } from './routes/Home';
 import { TeacherDashboard } from './routes/TeacherDashboard';
 import { StudentDashboard } from './routes/StudentDashboard';
+import { ConfirmNewsletter } from './routes/ConfirmNewsletter';
 
 // App (test-friendly) expects to be rendered inside a Router + RoleProvider.
 export const App: React.FC = () => <Shell />;
@@ -12,11 +17,13 @@ export const App: React.FC = () => <Shell />;
 // RootApp used by production entrypoint: wraps providers + router.
 export const RootApp: React.FC = () => (
   <ThemeProvider>
-    <RoleProvider>
-      <BrowserRouter>
-        <Shell />
-      </BrowserRouter>
-    </RoleProvider>
+    <LanguageProvider>
+      <RoleProvider>
+        <BrowserRouter>
+          <Shell />
+        </BrowserRouter>
+      </RoleProvider>
+    </LanguageProvider>
   </ThemeProvider>
 );
 
@@ -30,31 +37,22 @@ const ProtectedRoute: React.FC<{ allow: ('teacher' | 'student')[]; children: Rea
 
 const Shell: React.FC = () => {
   const { role, setRole } = useRole();
-  const { theme, toggle } = useTheme();
   return (
     <div className="app-shell">
       <a href="#main" className="skip-link">Hoppa till innehåll</a>
-      <header>
-        <h1>Skolapp</h1>
-        <nav aria-label="Huvudnavigation" style={{ display: 'flex', gap: '0.5rem' }}>
-          <Link to="/">Hem</Link>
-          <Link to="/teacher">Teacher</Link>
-          <Link to="/student">Student</Link>
-          <span style={{ marginLeft: 'auto' }}>Roll: {role}</span>
-          <button onClick={() => setRole('guest')}>Guest</button>
-          <button onClick={() => setRole('teacher')}>Teacher</button>
-          <button onClick={() => setRole('student')}>Student</button>
-          <button onClick={toggle} aria-label="Byt tema">Tema: {theme === 'light' ? '🌞' : '🌙'}</button>
-        </nav>
-      </header>
+      <NavBar />
       <OfflineBanner />
-      <main id="main" tabIndex={-1}>
+      <main id="main" tabIndex={-1} className="container mx-auto px-4 py-6">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/teacher" element={<ProtectedRoute allow={['teacher']}><TeacherDashboard /></ProtectedRoute>} />
             <Route path="/student" element={<ProtectedRoute allow={['student']}><StudentDashboard /></ProtectedRoute>} />
+          <Route path="/confirm-newsletter" element={<ConfirmNewsletter />} />
+          <Route path="/imprint" element={<Imprint />} />
         </Routes>
       </main>
+      <Footer />
+      <ConsentBanner />
     </div>
   );
 };
@@ -75,3 +73,10 @@ const OfflineBanner: React.FC = () => {
     </div>
   );
 };
+
+const Imprint: React.FC = () => (
+  <section className="prose prose-slate max-w-none">
+    <h2>Impressum</h2>
+    <p>Organisationsuppgifter och kontaktinformation. Uppdatera med verkliga uppgifter vid lansering.</p>
+  </section>
+);

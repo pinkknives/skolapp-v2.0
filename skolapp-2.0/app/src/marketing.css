@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Skolapp marketing tokens */
+:root {
+  --sa-bg: #F8FAFC;
+  --sa-surface: #FFFFFF;
+  --sa-text: #1A1A1A;
+  --sa-muted: #6B7280;
+  --sa-primary: #1E90FF; /* CTA */
+  --sa-border: #E5E7EB;
+}
+html[data-theme='dark'] {
+  --sa-bg: #0f172a;
+  --sa-surface: #1e293b;
+  --sa-text: #F3F4F6;
+  --sa-muted: #9CA3AF;
+  --sa-primary: #60A5FA;
+  --sa-border: #334155;
+}
+
+body { background: var(--sa-bg); color: var(--sa-text); }
+
+/***********************
+  Composables
+***********************/
+.container-narrow { max-width: 1100px; margin-inline: auto; padding-inline: 1rem; }
+.section { padding-block: 4rem; }
+.section-lg { padding-block: 6rem; }
+
+/* Accessible focus ring override */
+.sa-focus { outline: 2px solid var(--sa-primary); outline-offset: 2px; }
+
+/* Hero presets */
+.hero-gradient { background: radial-gradient(1200px 600px at 10% -10%, rgba(30,144,255,0.12), transparent 70%), linear-gradient(180deg, rgba(255,255,255,0.0), rgba(30,144,255,0.06)); }
+
+/* Card util for marketing */
+.mk-card { background: var(--sa-surface); border:1px solid var(--sa-border); border-radius: 14px; box-shadow: 0 10px 30px rgba(2,6,23,0.06); }

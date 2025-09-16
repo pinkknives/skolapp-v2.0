@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Skolapp design tokens: WCAG AA contrast, modular spacing */
+:root {
+  --color-background: #F8FAFC;
+  --color-surface: #FFFFFF;
+  --color-accent: #1E90FF;
+  --color-text: #1A1A1A;
+  --color-muted: #6B7280;
+  --color-border: #E5E7EB;
+  --color-error: #DC2626;
+  --color-success: #16A34A;
+  --section-spacing: 6rem;
+  --grid-spacing: 2rem;
+}
+.dark {
+  --color-background: #18181B;
+  --color-surface: #23272F;
+  --color-accent: #60A5FA;
+  --color-text: #F3F4F6;
+  --color-muted: #9CA3AF;
+  --color-border: #374151;
+  --color-error: #F87171;
+  --color-success: #4ADE80;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-text);
+  font-family: 'Inter', 'system-ui', sans-serif;
+}
+
+h1, h2, h3 {
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  font-weight: 700;
+}

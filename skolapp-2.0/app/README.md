@@ -19,6 +19,14 @@ npm run dev
 
 Öppna sedan http://localhost:5173
 
+### Snabbkontroll: Landing/Marketing
+- Hero + primär CTA synliga i första viewport (desktop och mobil ~812x375)
+- Tangentbordsnavigering: Tab-genomgång, fokusring synlig på alla interaktiva element
+- ARIA: `aria-current` på aktiva nav-länkar, formulärfält med `label` och fel via `aria-describedby`
+- Kontrast: verifiera med devtools/axe att text ≥ 4.5:1
+- PWA: Kontrollera manifest och SW (cache) i Application-fliken
+- Lighthouse: kör A11y och PWA – mål ≥ 0.9
+
 ## Lean Spec Workflow
 För varje ny funktion skapa en sektion i `docs/lean-spec.md` (skapa fil om den saknas) med:
 1. Mål
@@ -35,6 +43,13 @@ Därefter: implementera → skriv minst ett test → manuell a11y-kontroll (tang
 - Test setup (Vitest) + första testfil
 - CI workflow (GitHub Actions)
 - AI-suggestions modul (feature-flag först)
+
+## Tillgänglighet (WCAG 2.1 AA)
+- Färgkontrast: accent och text färgsatta för AA
+- Tangentbord: fokusordning och synlig focus ring (`sa-focus`, knappar/länkar)
+- Ikoner/illustrationer: dekorativa har `aria-hidden`, informativa har textalternativ
+- Formulär: label, felmeddelande kopplat via `aria-describedby`, semantiskt `button[type]`
+- Responsivt: testat grid/typografi för små och stora skärmar
 
 ## Licens
 Intern utvecklingsbasis.
