@@ -40,7 +40,29 @@ const Shell: React.FC = () => {
   return (
     <div className="app-shell">
       <a href="#main" className="skip-link">Hoppa till innehåll</a>
-      <NavBar />
+      <header className="navbar">
+        <div className="navbar__content">
+          <div className="navbar__brand">
+            <Link to="/" className="navbar__logo">Skolapp</Link>
+          </div>
+          <nav className="navbar__nav" aria-label="Huvudnavigation">
+            <Link to="/" className="navbar__link">Hem</Link>
+            <Link to="/teacher" className="navbar__link">Teacher</Link>
+            <Link to="/student" className="navbar__link">Student</Link>
+          </nav>
+          <div className="navbar__actions">
+            <span className="navbar__role">Roll: {role}</span>
+            <div className="navbar__role-buttons">
+              <button className="btn btn--ghost btn--sm" onClick={() => setRole('guest')}>Guest</button>
+              <button className="btn btn--ghost btn--sm" onClick={() => setRole('teacher')}>Teacher</button>
+              <button className="btn btn--ghost btn--sm" onClick={() => setRole('student')}>Student</button>
+            </div>
+            <button className="btn btn--icon" onClick={toggle} aria-label="Byt tema">
+              {theme === 'light' ? '🌞' : '🌙'}
+            </button>
+          </div>
+        </div>
+      </header>
       <OfflineBanner />
       <main id="main" tabIndex={-1} className="container mx-auto px-4 py-6">
         <Routes>
