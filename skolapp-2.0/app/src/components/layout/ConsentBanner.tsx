@@ -30,17 +30,27 @@ export const ConsentBanner: React.FC = () => {
       role="dialog"
       aria-live="polite"
       aria-label="Cookie consent"
-      className="fixed inset-x-0 bottom-0 z-40"
+      className="consent-banner"
     >
-      <div className="mx-auto container px-4 py-3 mb-4 mk-card bg-[var(--sa-surface)] border-[var(--sa-border)] shadow-lg">
-        <div className="flex flex-col md:flex-row items-start md:items-center gap-3">
-          <p className="text-sm text-[var(--sa-text)]">
+      <div className="consent-banner__content">
+        <div className="consent-banner__text">
+          <p className="consent-banner__message">
             {t('consent_text')}
           </p>
-          <div className="md:ml-auto flex gap-2">
-            <button className="btn btn--secondary" onClick={() => setState('declined')}>{t('decline')}</button>
-            <button className="btn" onClick={() => setState('accepted')}>{t('accept')}</button>
-          </div>
+        </div>
+        <div className="consent-banner__actions">
+          <button 
+            className="btn btn--ghost btn--sm" 
+            onClick={() => setState('declined')}
+          >
+            {t('decline')}
+          </button>
+          <button 
+            className="btn btn--primary btn--sm" 
+            onClick={() => setState('accepted')}
+          >
+            {t('accept')}
+          </button>
         </div>
       </div>
     </section>
