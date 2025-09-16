@@ -31,6 +31,23 @@ const ProtectedRoute: React.FC<{ allow: ('teacher' | 'student')[]; children: Rea
 const Shell: React.FC = () => {
   const { role, setRole } = useRole();
   const { theme, toggle } = useTheme();
+  
+  // For guests, show landing page without shell layout
+  if (role === 'guest') {
+    return (
+      <>
+        <OfflineBanner />
+        <main id="main" tabIndex={-1}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/teacher" element={<ProtectedRoute allow={['teacher']}><TeacherDashboard /></ProtectedRoute>} />
+            <Route path="/student" element={<ProtectedRoute allow={['student']}><StudentDashboard /></ProtectedRoute>} />
+          </Routes>
+        </main>
+      </>
+    );
+  }
+  
   return (
     <div className="app-shell">
       <a href="#main" className="skip-link">Hoppa till innehåll</a>
@@ -52,7 +69,7 @@ const Shell: React.FC = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/teacher" element={<ProtectedRoute allow={['teacher']}><TeacherDashboard /></ProtectedRoute>} />
-            <Route path="/student" element={<ProtectedRoute allow={['student']}><StudentDashboard /></ProtectedRoute>} />
+          <Route path="/student" element={<ProtectedRoute allow={['student']}><StudentDashboard /></ProtectedRoute>} />
         </Routes>
       </main>
     </div>

@@ -9,7 +9,7 @@ import { App } from './App';
 // Basic a11y smoke tests (not full axe scan, just presence & behavior).
 
 describe('App a11y landmarks', () => {
-  it('renders skip link and main landmark', () => {
+  it('renders main landmark for guest landing page', () => {
     render(
       <ThemeProvider>
         <RoleProvider>
@@ -19,7 +19,17 @@ describe('App a11y landmarks', () => {
         </RoleProvider>
       </ThemeProvider>
     );
-    const skip = screen.getByText(/Hoppa till innehåll/i);
-    expect(skip).toBeTruthy();
+    
+    // Should have main landmark
+    const main = screen.getByRole('main');
+    expect(main).toBeTruthy();
+    
+    // Should have at least one navigation (could be multiple)
+    const navs = screen.getAllByRole('navigation');
+    expect(navs.length).toBeGreaterThan(0);
+    
+    // Should have hero heading 
+    const heading = screen.getByText(/Modernisera din skolas digitala miljö/i);
+    expect(heading).toBeTruthy();
   });
 });
