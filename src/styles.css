@@ -1,6 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Note: This file is not part of the Vite app build. */
+/* Tailwind directives removed to silence editor diagnostics. */
 
 /* Skolapp design tokens: WCAG AA contrast, modular spacing */
 :root {

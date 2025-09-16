@@ -2,7 +2,9 @@
  * Skolapp Tailwind config
  * Design tokens: light/dark ready, WCAG AA contrast
  */
-import { Config } from 'tailwindcss';
+import type { Config } from 'tailwindcss';
+import forms from '@tailwindcss/forms';
+import typography from '@tailwindcss/typography';
 
 const skolappColors = {
   light: {
@@ -75,7 +77,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
+  plugins: [forms, typography],
 };
 
 export default config;
