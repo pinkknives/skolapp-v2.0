@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuizzes } from '../hooks/useQuizzes';
 import { Button } from '../components/Button';
 
 export const StudentDashboard: React.FC = () => {
   const { quizzes, loading, error, lastSynced, offline } = useQuizzes();
+  const navigate = useNavigate();
   const [quizCode, setQuizCode] = useState('');
   const [joinError, setJoinError] = useState('');
   const [joining, setJoining] = useState(false);
@@ -43,10 +45,10 @@ export const StudentDashboard: React.FC = () => {
         throw new Error('Quiz är stängt');
       }
       
-      // Success - redirect to quiz start (for now, just show success)
+      // Success - redirect to quiz start
       console.log('Joining quiz:', quizData);
-      alert(`Ansluter till quiz: ${quizData.title} (${quizData.questions} frågor)`);
       setQuizCode('');
+      navigate(`/quiz/${quizData.id}`);
       
     } catch (err: any) {
       setJoinError(err.message || 'Ett fel uppstod');

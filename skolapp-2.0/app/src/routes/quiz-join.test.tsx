@@ -6,6 +6,16 @@ import { RoleProvider } from '../auth/role-context';
 import { ThemeProvider } from '../theme/theme-context';
 import { StudentDashboard } from './StudentDashboard';
 
+// Mock useNavigate
+const mockNavigate = vi.fn();
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom');
+  return {
+    ...actual,
+    useNavigate: () => mockNavigate,
+  };
+});
+
 // Mock fetch for quiz codes API
 const mockQuizCodes = {
   'ABC123': {
@@ -32,6 +42,7 @@ describe('Quiz Join via Code', () => {
   beforeEach(() => {
     localStorage.clear();
     vi.resetAllMocks();
+    mockNavigate.mockClear();
     
     // Mock fetch for quiz codes and quizzes
     global.fetch = vi.fn().mockImplementation((url) => {
@@ -113,8 +124,6 @@ describe('Quiz Join via Code', () => {
   });
 
   it('R4: successfully joins quiz with valid code', async () => {
-    // Mock alert to capture success message
-    const alertSpy = vi.spyOn(window, 'alert').mockImplementation(() => {});
     const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
     
     setup();
@@ -129,12 +138,11 @@ describe('Quiz Join via Code', () => {
     });
     
     await waitFor(() => {
-      expect(alertSpy).toHaveBeenCalledWith('Ansluter till quiz: Matematik Quiz (10 frågor)');
       expect(consoleSpy).toHaveBeenCalledWith('Joining quiz:', mockQuizCodes.ABC123);
+      expect(mockNavigate).toHaveBeenCalledWith('/quiz/quiz-1');
       expect(input.value).toBe(''); // Input should be cleared
     });
     
-    alertSpy.mockRestore();
     consoleSpy.mockRestore();
   });
 

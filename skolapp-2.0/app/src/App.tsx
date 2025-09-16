@@ -5,6 +5,7 @@ import { ThemeProvider, useTheme } from './theme/theme-context';
 import { Home } from './routes/Home';
 import { TeacherDashboard } from './routes/TeacherDashboard';
 import { StudentDashboard } from './routes/StudentDashboard';
+import { QuizStart } from './routes/QuizStart';
 
 // App (test-friendly) expects to be rendered inside a Router + RoleProvider.
 export const App: React.FC = () => <Shell />;
@@ -53,6 +54,7 @@ const Shell: React.FC = () => {
           <Route path="/" element={<Home />} />
           <Route path="/teacher" element={<ProtectedRoute allow={['teacher']}><TeacherDashboard /></ProtectedRoute>} />
             <Route path="/student" element={<ProtectedRoute allow={['student']}><StudentDashboard /></ProtectedRoute>} />
+          <Route path="/quiz/:quizId" element={<ProtectedRoute allow={['student']}><QuizStart /></ProtectedRoute>} />
         </Routes>
       </main>
     </div>
