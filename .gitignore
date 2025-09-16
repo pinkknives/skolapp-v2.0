@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+skolapp-2.0/app/node_modules/
+skolapp-2.0/app/dist/
+
+# Build artifacts
+/build
+/dist
+
+# Environment files
+.DS_Store
+.env*
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime files
+*.tsbuildinfo
