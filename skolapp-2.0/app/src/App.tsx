@@ -10,6 +10,7 @@ import { Home } from './routes/Home';
 import { TeacherDashboard } from './routes/TeacherDashboard';
 import { StudentDashboard } from './routes/StudentDashboard';
 import { ConfirmNewsletter } from './routes/ConfirmNewsletter';
+import { DesignSystemDemo } from './routes/DesignSystemDemo';
 
 // App (test-friendly) expects to be rendered inside a Router + RoleProvider.
 export const App: React.FC = () => <Shell />;
@@ -68,6 +69,7 @@ const Shell: React.FC = () => {
       <main id="main" tabIndex={-1} className="container mx-auto px-4 py-6">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/design-demo" element={<DesignSystemDemo />} />
           <Route path="/teacher" element={<ProtectedRoute allow={['teacher']}><TeacherDashboard /></ProtectedRoute>} />
             <Route path="/student" element={<ProtectedRoute allow={['student']}><StudentDashboard /></ProtectedRoute>} />
           <Route path="/confirm-newsletter" element={<ConfirmNewsletter />} />

@@ -603,6 +603,14 @@ html[data-theme='dark'] {
   outline-offset: 2px;
 }
 
+/* Color Utilities */
+.text-primary { color: var(--color-primary); }
+.text-success { color: var(--color-success); }
+.text-warning { color: var(--color-warning); }
+.text-error { color: var(--color-error); }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+
 /* Layout Utilities */
 .ds-container {
   max-width: 1200px;
