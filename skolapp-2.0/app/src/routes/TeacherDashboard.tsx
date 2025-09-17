@@ -32,70 +32,127 @@ export const TeacherDashboard: React.FC = () => {
   }
 
   return (
-    <section>
-      <h2>Teacher Dashboard</h2>
-      <p>Skapa och hantera quiz.</p>
-      <form onSubmit={handleSubmit} aria-labelledby="create-quiz-h" style={{marginBottom: '1rem', border:'1px solid var(--border)', padding:'1rem', borderRadius:4}}>
-        <h3 id="create-quiz-h">Skapa nytt quiz</h3>
-        {!online && <div style={{color:'orange'}}>Offline-läge: sparas lokalt (R4)</div>}
-        <div style={{display:'flex', flexDirection:'column', gap:'0.5rem'}}>
-          <label>
-            Titel
-            <input
-              aria-required="true"
-              value={title}
-              onChange={e => { setTitle(e.target.value); setTouched(true); }}
-              maxLength={140}
-              placeholder="Ex: Glosor vecka 40"
-            />
-          </label>
-          <label>
-            Första fråga
-            <input
-              aria-required="true"
-              value={question}
-              onChange={e => { setQuestion(e.target.value); setTouched(true); }}
-              placeholder="Ex: Vad betyder ...?"
-            />
-          </label>
-          {(touched && currentErrors.length > 0) || errors.length > 0 ? (
-            <ul aria-live="assertive" style={{color:'red', margin:0, paddingLeft:'1.2rem'}}>
-              {(errors.length ? errors : currentErrors).map(er => <li key={er}>{er}</li>)}
-            </ul>
-          ) : null}
-          <Button
-            type="submit"
-            variant="primary"
-            loading={saving}
-            disabled={currentErrors.length > 0}
-          >
-            {saving ? 'Sparar…' : 'Skapa'}
-          </Button>
-        </div>
-      </form>
-      <div>
-        <h3>Quiz-lista {offline && <span style={{color: 'orange'}}>(offline)</span>}</h3>
-        {loading && <p>Laddar...</p>}
-        {error && <p style={{color: 'red'}}>Fel: {error}</p>}
-        <div style={{display:'grid', gap:'0.75rem'}}>
-          {merged(quizzes).map(q => (
-            <Card
-              key={q.id}
-              density="compact"
-              title={q.title}
-              badge={q._local ? 'Lokal' : undefined}
-              meta={q._local ? 'Ej synkad' : undefined}
-            >
-              {q._local && (
-                <span style={{fontSize:'.7rem', opacity:.8}}>
-                  Skapad lokalt {new Date((q as any).createdAt || q.updatedAt || Date.now()).toLocaleTimeString()}
-                </span>
-              )}
-            </Card>
-          ))}
-        </div>
-        <small>Senast synkad: {lastSynced ? lastSynced.toLocaleTimeString() : '–'}</small>
+    <div className="container">
+      <div className="dashboard-header">
+        <h2>Teacher Dashboard</h2>
+        <p className="text-muted">Skapa och hantera quiz.</p>
       </div>
-    </section>
+      
+      <div className="dashboard-grid">
+        <div className="dashboard-main">
+          <div className="card">
+            <div className="card__header">
+              <h3 className="card__title">Skapa nytt quiz</h3>
+              {!online && (
+                <div className="status-badge status-badge--warning">
+                  Offline-läge: sparas lokalt
+                </div>
+              )}
+            </div>
+            
+            <form onSubmit={handleSubmit} className="quiz-form">
+              <div className="form-group">
+                <label htmlFor="quiz-title" className="form-label">
+                  Titel <span className="required">*</span>
+                </label>
+                <input
+                  id="quiz-title"
+                  className="form-input"
+                  aria-required="true"
+                  value={title}
+                  onChange={e => { setTitle(e.target.value); setTouched(true); }}
+                  maxLength={140}
+                  placeholder="Ex: Glosor vecka 40"
+                />
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="quiz-question" className="form-label">
+                  Första fråga <span className="required">*</span>
+                </label>
+                <input
+                  id="quiz-question"
+                  className="form-input"
+                  aria-required="true"
+                  value={question}
+                  onChange={e => { setQuestion(e.target.value); setTouched(true); }}
+                  placeholder="Ex: Vad betyder ...?"
+                />
+              </div>
+              
+              {(touched && currentErrors.length > 0) || errors.length > 0 ? (
+                <div className="form-errors" aria-live="assertive">
+                  {(errors.length ? errors : currentErrors).map(er => (
+                    <div key={er} className="form-error">{er}</div>
+                  ))}
+                </div>
+              ) : null}
+              
+              <Button
+                type="submit"
+                variant="primary"
+                loading={saving}
+                disabled={currentErrors.length > 0}
+                className="btn--lg"
+              >
+                {saving ? 'Sparar…' : 'Skapa'}
+              </Button>
+            </form>
+          </div>
+        </div>
+        
+        <div className="dashboard-sidebar">
+          <div className="card">
+            <div className="card__header">
+              <h3 className="card__title">
+                Quiz-lista
+                {offline && (
+                  <span className="status-badge status-badge--warning">offline</span>
+                )}
+              </h3>
+            </div>
+            
+            {loading && (
+              <div className="loading-state">
+                <div className="spinner"></div>
+                <span>Laddar...</span>
+              </div>
+            )}
+            
+            {error && (
+              <div className="error-state">
+                <span className="error-icon">⚠️</span>
+                <span>Fel: {error}</span>
+              </div>
+            )}
+            
+            <div className="quiz-list">
+              {merged(quizzes).map(q => (
+                <Card
+                  key={q.id}
+                  density="compact"
+                  title={q.title}
+                  badge={q._local ? 'Lokal' : undefined}
+                  meta={q._local ? 'Ej synkad' : undefined}
+                  className="quiz-card"
+                >
+                  {q._local && (
+                    <span className="text-sm text-muted">
+                      Skapad lokalt {new Date((q as any).createdAt || q.updatedAt || Date.now()).toLocaleTimeString()}
+                    </span>
+                  )}
+                </Card>
+              ))}
+            </div>
+            
+            <div className="sync-status">
+              <span className="text-sm text-muted">
+                Senast synkad: {lastSynced ? lastSynced.toLocaleTimeString() : '–'}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
