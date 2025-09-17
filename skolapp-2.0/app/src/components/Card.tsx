@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
+import { designTokens } from '../design-tokens';
 
 export interface CardProps {
   interactive?: boolean;
@@ -32,10 +33,16 @@ export const Card: React.FC<CardProps> = ({
 }) => {
   const Component: any = interactive ? (as === 'a' ? 'a' : as === 'button' ? 'button' : 'button') : as;
   const isButtonLike = interactive && Component === 'button';
-  const densityClass = density === 'compact' ? 'card--compact' : density === 'spacious' ? 'card--spacious' : undefined;
+  
   return (
     <Component
-      className={clsx('card', interactive && 'card--interactive', densityClass, className)}
+      className={clsx(
+        'ds-card',
+        interactive && 'ds-card--interactive',
+        density === 'compact' && 'ds-card--compact',
+        density === 'spacious' && 'ds-card--spacious',
+        className
+      )}
       onClick={onClick}
       {...(href && Component === 'a' ? { href } : {})}
       {...(interactive ? { tabIndex: 0 } : {})}
@@ -43,16 +50,16 @@ export const Card: React.FC<CardProps> = ({
       {...(role ? { role } : {})}
     >
       {(title || meta || badge) && (
-        <div className="card__header">
-          <div style={{display:'flex', flexDirection:'column', gap:4}}>
-            {title && <h3 className="card__title">{title}</h3>}
-            {meta && <div className="card__meta">{meta}</div>}
+        <div className="ds-card__header">
+          <div className="ds-flex ds-flex-col ds-gap-1">
+            {title && <h3 className="ds-card__title">{title}</h3>}
+            {meta && <div className="ds-card__meta">{meta}</div>}
           </div>
-          {badge && <span className="card__badge">{badge}</span>}
+          {badge && <span className="ds-card__badge">{badge}</span>}
         </div>
       )}
-      {children && <div className="card__body">{children}</div>}
-      {footer && <div className="card__footer">{footer}</div>}
+      {children && <div className="ds-card__body">{children}</div>}
+      {footer && <div className="ds-card__footer">{footer}</div>}
     </Component>
   );
 };

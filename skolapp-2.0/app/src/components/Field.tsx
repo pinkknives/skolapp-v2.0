@@ -1,5 +1,6 @@
 import React, { useId } from 'react';
 import clsx from 'clsx';
+import { designTokens } from '../design-tokens';
 
 export interface FieldProps {
   label: string;
@@ -39,14 +40,27 @@ export const Field: React.FC<FieldProps> = ({
   const helpId = help ? `${id}-help` : undefined;
   const describedBy = [helpId, errorId].filter(Boolean).join(' ') || undefined;
   const Control: any = as;
+  
   return (
-    <div className={clsx('field', error && 'field--error', disabled && 'field--disabled', icon && 'field--with-icon')}>
-      <label className="field__label" htmlFor={id}>{label}{required && <span aria-hidden="true" style={{color:'var(--accent)'}}> *</span>}</label>
-      {icon && <span className="field__icon" aria-hidden="true">{icon}</span>}
+    <div className={clsx(
+      'ds-field',
+      error && 'ds-field--error',
+      disabled && 'ds-field--disabled',
+      icon && 'ds-field--with-icon'
+    )}>
+      <label className="ds-field__label" htmlFor={id}>
+        {label}
+        {required && <span aria-hidden="true" className="ds-field__required"> *</span>}
+      </label>
+      {icon && <span className="ds-field__icon" aria-hidden="true">{icon}</span>}
       <Control
         id={id}
         name={name}
-        className="field__control"
+        className={clsx(
+          'ds-input',
+          as === 'textarea' && 'ds-textarea',
+          error && 'ds-input--error'
+        )}
         value={value}
         onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => onChange(e.target.value)}
         placeholder={placeholder}
@@ -58,8 +72,8 @@ export const Field: React.FC<FieldProps> = ({
         autoComplete={autoComplete}
         onBlur={onBlur}
       />
-      {help && <div className="field__help" id={helpId}>{help}</div>}
-      {error && <div className="field__error" id={errorId}>{error}</div>}
+      {help && <div className="ds-field__help" id={helpId}>{help}</div>}
+      {error && <div className="ds-field__error" id={errorId}>{error}</div>}
     </div>
   );
 };

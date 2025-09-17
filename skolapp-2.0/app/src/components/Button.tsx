@@ -1,8 +1,10 @@
 import React from 'react';
 import clsx from 'clsx';
+import { designTokens } from '../design-tokens';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'danger' | 'ghost' | 'link' | 'icon';
+  size?: 'sm' | 'base' | 'lg';
   loading?: boolean;
   fullWidth?: boolean;
   icon?: React.ReactNode;
@@ -13,6 +15,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 
 export const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
+  size = 'base',
   loading = false,
   disabled,
   fullWidth,
@@ -26,15 +29,23 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   const isIconOnly = variant === 'icon' && !children;
   if (isIconOnly && !srLabel) {
-    if (process.env.NODE_ENV !== 'production') {
+    if (typeof process !== 'undefined' && process.env?.NODE_ENV !== 'production') {
       console.warn('Icon button utan srLabel');
     }
   }
   const label = isIconOnly ? srLabel : undefined;
   const ariaDisabled = loading || disabled ? true : undefined;
+  
   return (
     <button
-      className={clsx('btn', `btn--${variant}`, fullWidth && 'btn--full', loading && 'is-loading', className)}
+      className={clsx(
+        'btn', 
+        `btn--${variant}`, 
+        size !== 'base' && `btn--${size}`,
+        fullWidth && 'btn--full', 
+        loading && 'is-loading', 
+        className
+      )}
       disabled={disabled || loading}
       aria-disabled={ariaDisabled}
       aria-busy={loading || undefined}
