@@ -93,7 +93,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 0.2 }}
       >
-        <H3 className="mb-2 text-text" animate={false}>
+        <H3 className="mb-2 text-text">
           {title}
         </H3>
       </motion.div>
@@ -106,7 +106,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
           transition={{ duration: 0.4, delay: 0.3 }}
           className="max-w-md"
         >
-          <Text variant="muted" className="mb-6" animate={false}>
+          <Text variant="muted" className="mb-6">
             {description}
           </Text>
         </motion.div>
@@ -221,7 +221,7 @@ export const ErrorState: React.FC<ErrorStateProps> = ({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 0.2 }}
       >
-        <H3 className="mb-2 text-text" animate={false}>
+        <H3 className="mb-2 text-text">
           {title}
         </H3>
       </motion.div>
@@ -233,7 +233,7 @@ export const ErrorState: React.FC<ErrorStateProps> = ({
         transition={{ duration: 0.4, delay: 0.3 }}
         className="max-w-md mb-6"
       >
-        <Text variant="muted" animate={false}>
+        <Text variant="muted">
           {message}
         </Text>
       </motion.div>
@@ -295,7 +295,7 @@ export const ErrorState: React.FC<ErrorStateProps> = ({
                 variant="muted" 
                 as="pre" 
                 className="text-left whitespace-pre-wrap font-mono"
-                animate={false}
+               
               >
                 {details}
               </Text>
@@ -376,7 +376,7 @@ export const LoadingState: React.FC<LoadingStateProps> = ({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, delay: 0.2 }}
       >
-        <H3 className="mb-2 text-text" animate={false}>
+        <H3 className="mb-2 text-text">
           {title}
         </H3>
       </motion.div>
@@ -389,7 +389,7 @@ export const LoadingState: React.FC<LoadingStateProps> = ({
           transition={{ duration: 0.3, delay: 0.3 }}
           className="max-w-md"
         >
-          <Text variant="muted" animate={false}>
+          <Text variant="muted">
             {message}
           </Text>
         </motion.div>
@@ -465,7 +465,7 @@ export const SuccessState: React.FC<SuccessStateProps> = ({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 0.3 }}
       >
-        <H3 className="mb-2 text-success" animate={false}>
+        <H3 className="mb-2 text-success">
           {title}
         </H3>
       </motion.div>
@@ -478,7 +478,7 @@ export const SuccessState: React.FC<SuccessStateProps> = ({
           transition={{ duration: 0.4, delay: 0.4 }}
           className="max-w-md mb-6"
         >
-          <Text variant="muted" animate={false}>
+          <Text variant="muted">
             {message}
           </Text>
         </motion.div>

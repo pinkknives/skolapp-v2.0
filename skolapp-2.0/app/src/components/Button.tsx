@@ -67,29 +67,16 @@ export const Button: React.FC<ButtonProps> = ({
   
   const isDisabled = loading || disabled;
   
-  // Motion variants for 2025 micro-interactions
+  // Motion variants for 2025 micro-interactions  
   const motionVariants = {
-    gentle: {
-      scale: shouldReduceMotion ? 1 : 0.98,
-      transition: { duration: 0.12, ease: [0.4, 0, 0.2, 1] }
-    },
-    bounce: {
-      scale: shouldReduceMotion ? 1 : 0.95,
-      transition: { duration: 0.15, ease: [0.175, 0.885, 0.32, 1.275] }
-    },
+    gentle: { scale: shouldReduceMotion ? 1 : 0.98 },
+    bounce: { scale: shouldReduceMotion ? 1 : 0.95 },
     none: {}
   };
   
   const hoverVariants = {
-    gentle: {
-      scale: shouldReduceMotion ? 1 : 1.02,
-      y: shouldReduceMotion ? 0 : -1,
-      transition: { duration: 0.12, ease: [0.4, 0, 0.2, 1] }
-    },
-    bounce: {
-      scale: shouldReduceMotion ? 1 : 1.05,
-      transition: { duration: 0.2, ease: [0.175, 0.885, 0.32, 1.275] }
-    },
+    gentle: { scale: shouldReduceMotion ? 1 : 1.02, y: shouldReduceMotion ? 0 : -1 },
+    bounce: { scale: shouldReduceMotion ? 1 : 1.05 },
     none: {}
   };
 
