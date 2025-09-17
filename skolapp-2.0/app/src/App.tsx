@@ -37,11 +37,7 @@ const ProtectedRoute: React.FC<{ allow: ('teacher' | 'student')[]; children: Rea
 
 const Shell: React.FC = () => {
   const { role, setRole } = useRole();
-  const { theme, setTheme } = useTheme();
-
-  const toggle = () => {
-    setTheme(theme === 'light' ? 'dark' : 'light');
-  };
+  const { theme, toggle } = useTheme();
 
   return (
     <div className="app-shell">
